@@ -7,33 +7,33 @@ See demo.php for an example.
 
 ##List of methods
 
-Lipsum text: 'text($minChars, $maxChars)'
+Lipsum text: `text($minChars, $maxChars)`
 
-Color image: image($width, $height)
+Color image: `image($width, $height)`
 
-Wireframe image: placeholder($width, $height)
+Wireframe image: `placeholder($width, $height)`
 
-Price: price($min, $max)
+Price: `price($min, $max)`
 
-Name of a product: product()
+Name of a product: `product()`
 
-First name: firstname($gender) [m|fm]
+First name: `firstname($gender)` [m|fm]
 
-Last name: lastname()
+Last name: `lastname()`
 
-First + last name: name()
+First + last name: `name()`
 
-Email address: email()
+Email address: `email()`
 
-Street number and name: street()
+Street number and name: `street()`
 
-City: city()
+City: `city()`
 
-State, leave empty for abbreviation: state($full)
+State, leave empty for abbreviation: `state($full)`
 
-Zip code: zipcode()
+Zip code: `zipcode()`
 
-Street, city, state, zip: address()
+Street, city, state, zip: `address()`
 
-Telephone number with area code: telephone()
+Telephone number with area code: `telephone()`
 
