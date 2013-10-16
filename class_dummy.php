@@ -4,13 +4,45 @@
 		2013, @morningtoast
 	*/
 	class dummy {
-		function text($min=30, $max=120) {
+		function dummy() {
+			$this->pi = 1;
+		}
+
+		function yesno($w=5) {
+			if (rand(0,10) > $w) {
+				return(true);
+			} else {
+				return(false);
+			}
+		}
+
+		function text($min=30, $max=120, $nospaces=false) {
 			$s = "Aliquam lectus nulla, eleifend ut tellus in, euismod porttitor arcu. Aliquam erat volutpat. Morbi massa sapien, condimentum ultrices pretium porta, semper ac lacus. Nulla pharetra, urna a lacinia facilisis, neque libero placerat turpis, vel tincidunt massa nunc ac nunc. In nec volutpat ligula. Sed hendrerit ligula vel felis venenatis egestas. Duis sit amet pharetra erat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi rutrum vel magna et tincidunt. Curabitur mattis, sem eget suscipit porta, nibh enim auctor mi, eu lacinia magna velit eu quam. Donec commodo ultrices lorem vel ultrices. Aliquam erat volutpat. Praesent in libero bibendum, euismod dui quis, volutpat purus. Fusce non est egestas, volutpat ipsum ut, cursus augue. In hac habitasse platea dictumst. Cum volutpat.";
 			$s = explode(" ",$s);
 			shuffle($s);
 			$s = implode(" ", $s);
 			$s = ucfirst(substr($s, 0, rand($min,$max)));
+
+			if ($nospaces) {
+				$s = str_replace(" ","",$s);
+			}
+
 			return($s);
+		}
+
+		function words($max=5, $cmin=3, $cmax=9) {
+			$t = array();
+
+			for ($a=0; $a <= $max; $a++) {
+				$t[] = str_replace(array(",","."), array("",""), $this->text($cmin, ($cmax+2), true));
+			}
+
+			return(implode(" ",$t));
+			
+		}
+
+		function number($min=10, $max=1000) {
+			return(round(rand($min,$max)));
 		}
 
 		function image($w=300, $h=300) {
@@ -20,6 +52,17 @@
 
 			return($u);
 		}		
+
+		function productImage() {
+			$u = "./images/p".$this->pi.".jpg";
+
+			$this->pi++;
+
+			if ($this->pi > 9) { $this->pi = 1; }
+
+
+			return($u);
+		}
 
 		function placeholder($w=300, $h=300) {
 			return("http://placehold.it/".$w."x".$h);
@@ -32,15 +75,18 @@
 		}	
 
 		function product() {
-			$items = "book,exam,hub cap,paperclip,model train,phaser,socks,light saber,lamp,piano,salad,lunch,violin,pony,deoderant,powder,radio,purse,mp3 player,eyeliner,laptop,wheel,glove,boot,pen,slippers,bed,dog,wall,paper,cellular phone,clock,tree,guitar,mullet,dog,cushion,table,ginger,roundabout,cake,teapot,dreadlocks,lampshade,piggy bank,church,eagle,butterfly,keyboard";
-			$adj   = "old,new,gently used,big,small,vintage,retro,red,blue,green,orange,tarnished,broken,muddy,refurbished,waterproof";
+			$items = "book,exam,hub cap,paperclip,model train,phaser,socks,light saber,lamp,piano,salad,lunch,violin,pony,deoderant,powder,radio,purse,mp3 player,eyeliner,laptop,wheel,glove,boot,pen,slippers,bed,dog,wall,paper,cellular phone,clock,tree,guitar,mullet,dog,cushion,table,ginger,roundabout,cake,teapot,dreadlocks,lampshade,piggy bank,church,eagle,butterfly,keyboard,laptop";
+			$adj1   = "original,brand new,mint,new-in-box,trendy,vintage,retro,old,new,gently used,big,small,tarnished,broken,refurbished";
+			$adj2   = "hipster,red,blue,green,orange,muddy,waterproof,purple,stainless steel,24k gold,handmade,custom";
 
-			$a = explode(",",$adj);
+			$a = explode(",",$adj1);
+			$a2 = explode(",",$adj2);
 			$i = explode(",",$items);
 			shuffle($a);
+			shuffle($a2);
 			shuffle($i);
 
-			$t = ucfirst($a[0]." ".$a[3]." ".$i[1]);
+			$t = ucfirst($a[0]." ".$a2[3]." ".$i[1]);
 			return($t);
 		}
 
@@ -78,20 +124,30 @@
 			return($f." ".$l);
 		}
 
-		function email() {
+		function username() {
 			$n = rand(1,50);
-			$f = substr(0,1,$this->firstname());
+			$f = substr($this->firstname(),0,1);
 			$l = $this->lastname();
 
 			if ($n <= 30) { $l .= $n; }
 
+			return(strtolower($f.$l));
+
+		}
+
+		function email() {
+			$u = $this->username();
 			$m = array("@gmail.com","@hotmail.com","@yahoo.com","@aol.com");
-			return(strtolower($f.$l.$m));
+			shuffle($m);
+			$m = current($m);
+
+
+			return(strtolower($u.$m));
 		}
 
 		function street() {
 			$list = explode(",","Second,Third,First,Fourth,Park,Fifth,Main,Sixth,Oak,Seventh,Pine,Maple,Cedar,Eighth,Elm,Washington,Ninth,Lake,Hill");
-			$n    = rand(1001,5500);
+			$n    = rand(700,5500);
 			shuffle($list);
 			return($n." ".current($list)." St.");
 		}
