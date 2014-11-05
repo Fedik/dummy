@@ -2,11 +2,62 @@
 	/*
 		Dummy text generator for wireframing
 		2013, @morningtoast
+		https://github.com/morningtoast/dummy
 	*/
 	class dummy {
 		function dummy() {
-			$this->pi = 1;
+
 		}
+
+		function all() {
+			$un = $this->username();
+			$fn = $this->firstname();
+			$ln = $this->lastname();
+
+			$dump = array(
+				"primaryText" => $this->words(6),
+				"secondaryText" => $this->sentence(),
+				"userid" => $this->number(),
+				"rid"     => $this->number(),				
+
+				"link" => "http://www.google.com",
+				"date" => $this->mdy(),
+				"time" => $this->hm(),
+				"text" => $this->text(40,140),
+				"body" => $this->text(140,600),
+				"number" => $this->number(),
+				"background" => $this->image(640,480),				
+				"image" => $this->image(),
+				"thumbnail" => $this->placeholder(150,150),
+				"price" => $this->price(),
+				"product" => $this->product(),
+				"firstname" => $fn,
+				"lastname" => $ln,
+				"name" => $fn." ".$ln,
+				"username" => $un,
+				"email" => $this->email($un),
+				"street" => $this->street(),
+				"city" => $this->city(),
+				"state" => $this->state(),
+				"zipcode" => $this->zipcode(),
+				"telephone" => $this->telephone()
+			);
+
+			return($dump);
+		}
+
+
+		function dump($qty=5) {
+			$a = array();
+
+			for($b=0;$b<$qty;$b++) {
+				$a[] = $this->all();
+			}
+
+			return($a);
+		}
+
+
 
 		function yesno($w=5) {
 			if (rand(0,10) > $w) {
@@ -16,8 +67,22 @@
 			}
 		}
 
+		function mdy() {
+			return(rand(1,12)."/".rand(1,30)."/".rand(1943,2010));
+		}
+
+		function hm($s=false) {
+			$t = rand(1,12).":".rand(10,59);
+
+			if ($s) { $t = $t.":".rand(10,59); }
+
+			if ($this->yesno()) { $t .= " AM"; } else { $t .= " PM"; }
+
+			return($t);
+		}
+
 		function text($min=30, $max=120, $nospaces=false) {
-			$s = "Aliquam lectus nulla, eleifend ut tellus in, euismod porttitor arcu. Aliquam erat volutpat. Morbi massa sapien, condimentum ultrices pretium porta, semper ac lacus. Nulla pharetra, urna a lacinia facilisis, neque libero placerat turpis, vel tincidunt massa nunc ac nunc. In nec volutpat ligula. Sed hendrerit ligula vel felis venenatis egestas. Duis sit amet pharetra erat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi rutrum vel magna et tincidunt. Curabitur mattis, sem eget suscipit porta, nibh enim auctor mi, eu lacinia magna velit eu quam. Donec commodo ultrices lorem vel ultrices. Aliquam erat volutpat. Praesent in libero bibendum, euismod dui quis, volutpat purus. Fusce non est egestas, volutpat ipsum ut, cursus augue. In hac habitasse platea dictumst. Cum volutpat.";
+			$s = "Aliquam lectus nulla, eleifend ut tellus in, euismod porttitor arcu. Aliquam erat volutpat. Morbi massa sapien, condimentum ultrices pretium porta, semper ac lacus. Nulla pharetra, urna a lacinia facilisis, neque libero placerat turpis, vel tincidunt massa nunc ac nunc. In nec volutpat ligula. Sed hendrerit ligula vel felis venenatis egestas. Duis sit amet pharetra erat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi rutrum vel magna et tincidunt. Curabitur mattis, sem eget suscipit porta, nibh enim auctor mi, eu lacinia magna velit eu quam. Donec commodo ultrices lorem vel ultrices. Aliquam erat volutpat. Praesent in libero bibendum, euismod dui quis, volutpat purus. Fusce non est egestas, volutpat ipsum ut, cursus augue. In hac habitasse platea dictumst. Mum volutpat.";
 			$s = explode(" ",$s);
 			shuffle($s);
 			$s = implode(" ", $s);
@@ -30,19 +95,21 @@
 			return($s);
 		}
 
-		function words($max=5, $cmin=3, $cmax=9) {
+		function words($max=5, $cmin=2, $cmax=6) {
 			$t = array();
 
-			for ($a=0; $a <= $max; $a++) {
+			for ($a=0; $a <= ($max-1); $a++) {
 				$t[] = str_replace(array(",","."), array("",""), $this->text($cmin, ($cmax+2), true));
 			}
 
 			return(implode(" ",$t));
-			
 		}
-		
-		function mdy() {
-			return(rand(1,12)."/".rand(1,31)."/".rand(1945,2010));
+
+		function sentence($min=3, $max=10) {
+			$l = rand($min,$max);
+
+			$w = ucfirst(strtolower($this->words($l))).".";
+			return($w);
 		}
 
 		function number($min=10, $max=1000) {
@@ -61,7 +128,7 @@
 			return("http://placehold.it/".$w."x".$h);
 		}
 
-		function price($min=2, $max=150) {
+		function price($min=2, $max=500) {
 			$c = array("00","99","49","00","50","29"); shuffle($c);
 			$p = rand($min,$max).".".current($c);
 			return($p);
@@ -79,7 +146,8 @@
 			shuffle($a2);
 			shuffle($i);
 
-			$t = ucfirst($a[0]." ".$a2[3]." ".$i[1]);
+			//$t = ucfirst($a[0]." ".$a2[3]." ".$i[1]);
+			$t = ucfirst($a2[3]." ".$i[1]);
 			return($t);
 		}
 
@@ -128,9 +196,9 @@
 
 		}
 
-		function email() {
-			$u = $this->username();
-			$m = array("@gmail.com","@hotmail.com","@yahoo.com","@aol.com");
+		function email($u=false) {
+			if (!$u) { $u = $this->username(); }
+			$m = array("@gmail.com","@hotmail.com","@yahoo.com","@aol.com","@redlinederby.com");
 			shuffle($m);
 			$m = current($m);
 
