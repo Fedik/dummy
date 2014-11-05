@@ -40,6 +40,10 @@
 			return(implode(" ",$t));
 			
 		}
+		
+		function mdy() {
+			return(rand(1,12)."/".rand(1,31)."/".rand(1945,2010));
+		}
 
 		function number($min=10, $max=1000) {
 			return(round(rand($min,$max)));
@@ -52,17 +56,6 @@
 
 			return($u);
 		}		
-
-		function productImage() {
-			$u = "./images/p".$this->pi.".jpg";
-
-			$this->pi++;
-
-			if ($this->pi > 9) { $this->pi = 1; }
-
-
-			return($u);
-		}
 
 		function placeholder($w=300, $h=300) {
 			return("http://placehold.it/".$w."x".$h);
