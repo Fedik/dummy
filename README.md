@@ -5,7 +5,7 @@ PHP Dummy text generator for wireframing
 
 See demo.php for an example.
 
-##List of methods
+## List of methods
 
 Lipsum text: `text($minChars, $maxChars)`
 
@@ -46,4 +46,3 @@ Zip code: `zipcode()`
 Street, city, state, zip: `address()`
 
 Telephone number with area code: `telephone()`
-

@@ -1,11 +1,11 @@
 <?
-	include("class_dummy.php");
-	$dummy = new dummy;
+require_once 'class_dummy.php';
+$dummy = new Dummy;
 ?>
 <!DOCTYPE html>
 <html class="no-js">
 <head>
-	<title></title>
+	<title>Demo Dummy</title>
 </head>
 <body>
 	<h1><?= $dummy->product(); ?></h1>
